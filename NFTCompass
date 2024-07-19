@@ -1,0 +1,37 @@
+# scripts/main.py
+
+from scripts.sales_tracking import fetch_recent_sales, analyze_sales
+from scripts.market_analysis import analyze_market_trends
+from scripts.collection_insights import fetch_collection_data, analyze_collections
+from scripts.nft_analysis import fetch_nft_data, analyze_nft
+from utils.data_utils import save_data, load_json
+
+def main():
+    api_url = 'https://api.nft.example.com'
+    
+    # Fetch and analyze recent NFT sales
+    recent_sales_df = fetch_recent_sales(api_url)
+    save_data(recent_sales_df.to_dict(orient='records'), 'data/recent_sales.json')
+    sales_analysis_df = analyze_sales(recent_sales_df)
+    save_data(sales_analysis_df.to_dict(orient='records'), 'data/sales_analysis.json')
+    
+    # Fetch and analyze NFT collections
+    collection_df = fetch_collection_data(api_url)
+    save_data(collection_df.to_dict(orient='records'), 'data/collections.json')
+    collection_analysis_df = analyze_collections(collection_df)
+    save_data(collection_analysis_df.to_dict(orient='records'), 'data/collection_analysis.json')
+    
+    # Example of analyzing individual NFT
+    nft_id = '12345'  # Replace with actual NFT ID
+    nft_data_df = fetch_nft_data(api_url, nft_id)
+    save_data(nft_data_df.to_dict(orient='records'), f'data/nft_{nft_id}.json')
+    nft_analysis_df = analyze_nft(nft_data_df)
+    save_data(nft_analysis_df.to_dict(orient='records'), f'data/nft_{nft_id}_analysis.json')
+    
+    # Example of market analysis
+    nft_data_df = pd.DataFrame([...])  # Replace with actual NFT data
+    market_analysis_df = analyze_market_trends(nft_data_df)
+    save_data(market_analysis_df.to_dict(orient='records'), 'data/market_analysis.json')
+
+if __name__ == "__main__":
+    main()
